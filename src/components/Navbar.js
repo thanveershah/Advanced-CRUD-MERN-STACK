@@ -23,11 +23,13 @@ class Navbar extends Component {
       startVal: 0,
       offset: 0,
       totalCount: []
+      // testImage: "bottomlogo.jpg"
     };
     this.displayData = this.displayData.bind(this);
     this.displayTable = this.displayTable.bind(this);
     this.pagination = this.pagination.bind(this);
     this.paginationIncr = this.paginationIncr.bind(this);
+    // this.testtry = this.testtry.bind(this);
   }
 
   //Checking Image
@@ -38,32 +40,30 @@ class Navbar extends Component {
     });
   };
 
+  // testtry = val => {
+  //   this.setState({
+  //     testImage: URL.createObjectURL(val)
+  //   });
+  //   console.log(this.state.testImage);
+  // };
+
   // //Storing the Data
   addBtn = e => {
     e.preventDefault();
-    // let formData = new FormData();
-    // formData.append("avatar", this.state.imgPath);
-    // formData.append("username", this.state.username);
-    // formData.append("email", this.state.email);
-    var data = {
-      username: this.state.username,
-      email: this.state.email
-    };
+    let formData = new FormData();
+    formData.append("avatar", this.state.imgPath);
+    formData.set("username", this.state.username);
+    formData.set("email", this.state.email);
+    // var data = {
+    //   username: this.state.username,
+    //   email: this.state.email
+    // };
     this.setState({
       loading: true
     });
-    axios("/user", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json"
-      },
-      data: data
-    })
-      .then(res => {
-        if (res.status >= 400) {
-          throw new Error("Bad response from server");
-        }
-      })
+    // console.log(formData);
+    axios
+      .post("/user", formData)
       .then(res => {
         console.log(res);
         this.setState({
@@ -234,7 +234,7 @@ class Navbar extends Component {
   render() {
     return (
       <div className="conatiner">
-        {/* <div className="row">
+        <div className="row">
           <div className="col-md-12">
             <div className="form-group">
               <div id="img">
@@ -242,9 +242,9 @@ class Navbar extends Component {
               </div>
               <input type="file" name="avatar" onChange={this.checkMe} />
             </div>
-            <Search />
+            {/* <Search /> */}
           </div>
-        </div> */}
+        </div>
         <div className="row">
           <div className="col-md-6">
             <form>
@@ -355,6 +355,15 @@ class Navbar extends Component {
                   className="list-group-item  align-items-center"
                   style={{ boxShadow: "0 8px 10px silver" }}
                 >
+                  <div id="img">
+                    <img
+                      id="imgPic"
+                      src={process.env.PUBLIC_URL +"/images/"+ data.image}
+                      // onLoad={() => this.testtry(data.image)}
+                      alt="Alt"
+                    />
+                    {/* <p>{data.image}</p> */}
+                  </div>
                   <div className="order-md-1 order-2 ">
                     <b>ID : {data.id}</b> <br />
                     <b>Name:</b> {data.username} <br /> <b>Email: </b>{" "}
